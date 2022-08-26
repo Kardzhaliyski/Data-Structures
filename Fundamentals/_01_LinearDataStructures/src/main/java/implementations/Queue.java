@@ -5,7 +5,7 @@ import interfaces.AbstractQueue;
 import java.util.Iterator;
 
 public class Queue<E> implements AbstractQueue<E> {
-    private Node<E> head;
+    private Node<E> tail;
     private int size;
 
     public Queue() {
@@ -16,13 +16,13 @@ public class Queue<E> implements AbstractQueue<E> {
     public void offer(E element) {
         Node<E> newNode = new Node<>(element);
 
-        if (head == null) {
-            head = newNode;
+        if (tail == null) {
+            tail = newNode;
             size++;
             return;
         }
 
-        Node<E> current = head;
+        Node<E> current = tail;
         while (current.getNext() != null) {
             current.setNext(newNode);
         }
@@ -32,23 +32,23 @@ public class Queue<E> implements AbstractQueue<E> {
 
     @Override
     public E poll() {
-        if (head == null) {
+        if (tail == null) {
             throw new IllegalStateException("Queue must not be empty!");
         }
 
-        Node<E> toRemove = head;
-        head = head.getNext();
+        Node<E> toRemove = tail;
+        tail = tail.getNext();
         size--;
         return toRemove.getValue();
     }
 
     @Override
     public E peek() {
-        if (head == null) {
+        if (tail == null) {
             throw new IllegalStateException("Queue must not be empty!");
         }
 
-        return head.getValue();
+        return tail.getValue();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Queue<E> implements AbstractQueue<E> {
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
-            Node<E> current = head;
+            Node<E> current = tail;
 
             @Override
             public boolean hasNext() {
